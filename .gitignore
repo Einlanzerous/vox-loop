@@ -6,7 +6,7 @@ config/
 media/
 
 # Go binary
-vox-loop
+/vox-loop
 
 # OS artifacts
 .DS_Store
