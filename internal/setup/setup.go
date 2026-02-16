@@ -10,6 +10,7 @@ import (
 	"text/template"
 
 	"github.com/Einlanzerous/vox-loop/internal/preflight"
+	"github.com/joho/godotenv"
 )
 
 const serverName = "imperial-construct.tail64150e.ts.net"
@@ -29,6 +30,9 @@ type templateData struct {
 
 // Run generates all configuration files for Dendrite.
 func Run() error {
+	// Load .env file if present (does not override existing env vars)
+	_ = godotenv.Load()
+
 	data := templateData{
 		ServerName:       serverName,
 		PostgresPassword: envOrDefault("POSTGRES_PASSWORD", "changeme"),
