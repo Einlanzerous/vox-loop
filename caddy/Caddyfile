@@ -1,0 +1,29 @@
+imperial-construct.tail64150e.ts.net {
+	handle /.well-known/matrix/client {
+		header Content-Type application/json
+		respond `{"m.homeserver":{"base_url":"https://imperial-construct.tail64150e.ts.net"},"org.matrix.msc3575.proxy":{"url":"https://imperial-construct.tail64150e.ts.net"}}`
+	}
+
+	handle /.well-known/matrix/server {
+		header Content-Type application/json
+		respond `{"m.server":"imperial-construct.tail64150e.ts.net:443"}`
+	}
+
+	handle /_matrix/* {
+		reverse_proxy dendrite:8008
+	}
+
+	handle /_synapse/client/sliding-sync/* {
+		reverse_proxy sliding-sync:8009
+	}
+
+	handle {
+		respond "Vox Loop" 200
+	}
+}
+
+imperial-construct.tail64150e.ts.net:8448 {
+	handle /_matrix/* {
+		reverse_proxy dendrite:8008
+	}
+}

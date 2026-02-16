@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: dendrite
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: dendrite
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dendrite"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  dendrite:
+    image: ghcr.io/einlanzerous/vox-loop:latest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./config:/etc/dendrite
+      - ./media:/var/dendrite/media
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  sliding-sync:
+    image: ghcr.io/matrix-org/sliding-sync:latest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SYNCV3_SERVER: http://dendrite:8008
+      SYNCV3_DB: postgres://syncv3:${SYNCV3_DB_PASSWORD}@postgres:5432/syncv3?sslmode=disable
+      SYNCV3_SECRET: ${SYNCV3_SECRET}
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - dendrite
+      - sliding-sync
+    ports:
+      - "443:443"
+      - "8448:8448"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/well-known:/srv/well-known:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
