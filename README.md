@@ -27,6 +27,34 @@ docker compose up -d
 docker compose exec dendrite vox-loop admin create-account --username yourname --admin
 ```
 
+## Connecting
+
+All users must be on the Tailscale network to reach the homeserver.
+
+### Element X (Recommended)
+
+Element X is the modern Matrix client with native Sliding Sync support for fast sync performance.
+
+- **iOS**: [App Store](https://apps.apple.com/app/element-x-secure-messenger/id6448611190)
+- **Android**: [Google Play](https://play.google.com/store/apps/details?id=io.element.android.x)
+
+On the login screen, tap **Change homeserver** and enter:
+```
+https://imperial-construct.tail64150e.ts.net
+```
+
+### Element (Desktop & Web)
+
+Element is the full-featured Matrix client for desktop and browser.
+
+- **Desktop** (macOS/Windows/Linux): [element.io/download](https://element.io/download)
+- **Web**: [app.element.io](https://app.element.io)
+
+Click **Sign in**, then **Edit** the homeserver URL to:
+```
+https://imperial-construct.tail64150e.ts.net
+```
+
 ## Roadmap
 
 ### Phase 1: The Vox Network
