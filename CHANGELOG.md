@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/Einlanzerous/vox-loop/compare/v1.0.2...v1.0.3) (2026-02-17)
+
+
+### Bug Fixes
+
+* update caddy to match vox-loop ([c50b854](https://github.com/Einlanzerous/vox-loop/commit/c50b854827e8d635223ac6eb1293ff4c08e78db0))
+
 ## [1.0.2](https://github.com/Einlanzerous/vox-loop/compare/v1.0.1...v1.0.2) (2026-02-17)
 
 
