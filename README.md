@@ -5,6 +5,8 @@ Private Matrix/Dendrite communication stack on Tailscale for friends & family.
 ## Architecture
 
 - **Dendrite** — Matrix homeserver (monolith mode)
+- **Sliding Sync** — MSC3575 proxy required by Element X
+- **Caddy** — Reverse proxy, serves well-known discovery and routes Matrix traffic
 - **Postgres** — Database backend
 - **vox-loop CLI** — Configuration generator and container entrypoint
 - **Tailscale** — Encrypted mesh networking (TLS at the network layer)
@@ -63,6 +65,7 @@ http://imperial-construct:4000
 Text communications over Tailscale MagicDNS. Dendrite monolith with Postgres, all traffic encrypted by Tailscale — no public internet exposure.
 
 - Dendrite homeserver at `imperial-construct:4000`
+- Sliding Sync proxy for Element X mobile clients
 - Element X on mobile and desktop via Tailscale
 - Registration locked down; accounts created via CLI
 
