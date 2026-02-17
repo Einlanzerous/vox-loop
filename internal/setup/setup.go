@@ -28,7 +28,7 @@ type templateData struct {
 	SharedSecret     string
 }
 
-// Run generates all configuration files for Dendrite.
+// Run generates all configuration files for Dendrite (host mode, writes to ./config/).
 func Run() error {
 	// Load .env file if present (does not override existing env vars)
 	_ = godotenv.Load()
@@ -49,9 +49,48 @@ func Run() error {
 		{"caddy/well-known/matrix/server", wellKnownServerJSON},
 	}
 
+	if err := generateFiles(files, data); err != nil {
+		return err
+	}
+
+	fmt.Println("\nvox-loop init complete. Generated files:")
+	for _, f := range files {
+		fmt.Printf("  %s\n", f.path)
+	}
+	fmt.Printf("\nRegistration shared secret: %s\n", data.SharedSecret)
+	fmt.Println("Save this secret — you'll need it for 'vox-loop admin create-account'.")
+	return nil
+}
+
+// GenerateContainerConfig generates dendrite.yaml at /etc/dendrite/ for container entrypoint use.
+func GenerateContainerConfig() error {
+	data := templateData{
+		ServerName:       serverName,
+		PostgresPassword: envOrDefault("POSTGRES_PASSWORD", "changeme"),
+		SharedSecret:     envOrDefault("REGISTRATION_SHARED_SECRET", generateSecret(32)),
+	}
+
+	files := []struct {
+		path string
+		tmpl string
+	}{
+		{"/etc/dendrite/dendrite.yaml", dendriteYAMLTmpl},
+	}
+
+	if err := generateFiles(files, data); err != nil {
+		return err
+	}
+
+	fmt.Printf("registration shared secret: %s\n", data.SharedSecret)
+	return nil
+}
+
+func generateFiles(files []struct {
+	path string
+	tmpl string
+}, data templateData) error {
 	for _, f := range files {
 		if f.tmpl == "" {
-			// Special case: generate matrix key
 			dir := filepath.Dir(f.path)
 			if err := os.MkdirAll(dir, 0755); err != nil {
 				return fmt.Errorf("creating directory %s: %w", dir, err)
@@ -66,13 +105,6 @@ func Run() error {
 			return err
 		}
 	}
-
-	fmt.Println("\nvox-loop init complete. Generated files:")
-	for _, f := range files {
-		fmt.Printf("  %s\n", f.path)
-	}
-	fmt.Printf("\nRegistration shared secret: %s\n", data.SharedSecret)
-	fmt.Println("Save this secret — you'll need it for 'vox-loop admin create-account'.")
 	return nil
 }
 

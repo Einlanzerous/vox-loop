@@ -18,7 +18,7 @@ func main() {
 		Short:   "Vox Loop — Matrix/Dendrite homeserver manager",
 		Version: version,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return preflight.RunAndExec()
+			return preflight.RunAndExec(setup.GenerateContainerConfig)
 		},
 		SilenceUsage: true,
 	}

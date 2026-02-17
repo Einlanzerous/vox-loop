@@ -16,13 +16,17 @@ const (
 )
 
 // RunAndExec performs pre-flight checks and execs into the Dendrite binary.
-func RunAndExec() error {
+// If dendrite.yaml is missing, configGenerator is called to create it.
+func RunAndExec(configGenerator func() error) error {
 	if err := ensureMatrixKey(); err != nil {
 		return fmt.Errorf("matrix key check: %w", err)
 	}
 
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		return fmt.Errorf("dendrite config not found at %s — run 'vox-loop init' first", configPath)
+		fmt.Println("dendrite.yaml not found, generating config...")
+		if err := configGenerator(); err != nil {
+			return fmt.Errorf("auto-generating config: %w", err)
+		}
 	}
 
 	fmt.Println("pre-flight checks passed, starting Dendrite...")
