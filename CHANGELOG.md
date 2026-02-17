@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/Einlanzerous/vox-loop/compare/v1.0.0...v1.0.1) (2026-02-17)
+
+
+### Bug Fixes
+
+* Handle setup for init, and also trigger jobs for construct ([c0eb6bf](https://github.com/Einlanzerous/vox-loop/commit/c0eb6bf60a40068e5a944c1902b5ac37eb60d2ba))
+* Tighten setup scripts to better track passwords ([ac31d63](https://github.com/Einlanzerous/vox-loop/commit/ac31d636688157ccad150d7cb02f9aefc53dad06))
+
 ## 1.0.0 (2026-02-16)
 
 
