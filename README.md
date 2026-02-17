@@ -5,10 +5,9 @@ Private Matrix/Dendrite communication stack on Tailscale for friends & family.
 ## Architecture
 
 - **Dendrite** — Matrix homeserver (monolith mode)
-- **Sliding Sync** — MSC3575 proxy for Element X clients
-- **Caddy** — Reverse proxy with automatic TLS
 - **Postgres** — Database backend
 - **vox-loop CLI** — Configuration generator and container entrypoint
+- **Tailscale** — Encrypted mesh networking (TLS at the network layer)
 
 ## Quick Start
 
@@ -29,7 +28,7 @@ docker compose exec dendrite vox-loop admin create-account --username yourname -
 
 ## Connecting
 
-All users must be on the Tailscale network to reach the homeserver.
+All users must be connected to Tailscale to reach the homeserver. Traffic is encrypted end-to-end at the network layer by Tailscale, so HTTPS is not required.
 
 ### Element X (Recommended)
 
@@ -40,7 +39,7 @@ Element X is the modern Matrix client with native Sliding Sync support for fast 
 
 On the login screen, tap **Change homeserver** and enter:
 ```
-https://imperial-construct.tail64150e.ts.net
+http://imperial-construct:4000
 ```
 
 ### Element (Desktop & Web)
@@ -52,19 +51,20 @@ Element is the full-featured Matrix client for desktop and browser.
 
 Click **Sign in**, then **Edit** the homeserver URL to:
 ```
-https://imperial-construct.tail64150e.ts.net
+http://imperial-construct:4000
 ```
+
+> **Note:** Element Web at `app.element.io` is served over HTTPS and may block connections to an HTTP homeserver due to mixed-content restrictions. Use the desktop app or Element X instead.
 
 ## Roadmap
 
 ### Phase 1: The Vox Network
 
-Text communications over Tailscale MagicDNS. Dendrite monolith with Postgres, Sliding Sync proxy for Element X, and Caddy for TLS termination. All services communicate over the Tailscale mesh — no public internet exposure.
+Text communications over Tailscale MagicDNS. Dendrite monolith with Postgres, all traffic encrypted by Tailscale — no public internet exposure.
 
-- Dendrite homeserver at `imperial-construct.tail64150e.ts.net`
+- Dendrite homeserver at `imperial-construct:4000`
 - Element X on mobile and desktop via Tailscale
 - Registration locked down; accounts created via CLI
-- Sliding Sync for fast room list and message sync
 
 ### Phase 2: Tactical Auspex
 
