@@ -7,7 +7,7 @@ global:
   key_validity_period: 168h0m0s
 
   database:
-    connection_string: postgres://dendrite:{{ .PostgresPassword }}@postgres:5432/dendrite?sslmode=disable
+    connection_string: postgres://{{ .PostgresUser }}:{{ .PostgresPassword }}@{{ .PostgresHost }}:5432/{{ .PostgresDB }}?sslmode=disable
     max_open_conns: 90
     max_idle_conns: 5
     conn_max_lifetime: -1
@@ -29,7 +29,7 @@ logging:
 
 app_service_api:
   database:
-    connection_string: postgres://dendrite:{{ .PostgresPassword }}@postgres:5432/dendrite?sslmode=disable
+    connection_string: postgres://{{ .PostgresUser }}:{{ .PostgresPassword }}@{{ .PostgresHost }}:5432/{{ .PostgresDB }}?sslmode=disable
 
 client_api:
   registration_disabled: true
@@ -37,34 +37,34 @@ client_api:
 
 federation_api:
   database:
-    connection_string: postgres://dendrite:{{ .PostgresPassword }}@postgres:5432/dendrite?sslmode=disable
+    connection_string: postgres://{{ .PostgresUser }}:{{ .PostgresPassword }}@{{ .PostgresHost }}:5432/{{ .PostgresDB }}?sslmode=disable
 
 key_server:
   database:
-    connection_string: postgres://dendrite:{{ .PostgresPassword }}@postgres:5432/dendrite?sslmode=disable
+    connection_string: postgres://{{ .PostgresUser }}:{{ .PostgresPassword }}@{{ .PostgresHost }}:5432/{{ .PostgresDB }}?sslmode=disable
 
 media_api:
   database:
-    connection_string: postgres://dendrite:{{ .PostgresPassword }}@postgres:5432/dendrite?sslmode=disable
+    connection_string: postgres://{{ .PostgresUser }}:{{ .PostgresPassword }}@{{ .PostgresHost }}:5432/{{ .PostgresDB }}?sslmode=disable
   base_path: /var/dendrite/media
   max_file_size_bytes: 104857600
 
 mscs:
   database:
-    connection_string: postgres://dendrite:{{ .PostgresPassword }}@postgres:5432/dendrite?sslmode=disable
+    connection_string: postgres://{{ .PostgresUser }}:{{ .PostgresPassword }}@{{ .PostgresHost }}:5432/{{ .PostgresDB }}?sslmode=disable
 
 relay_api:
   database:
-    connection_string: postgres://dendrite:{{ .PostgresPassword }}@postgres:5432/dendrite?sslmode=disable
+    connection_string: postgres://{{ .PostgresUser }}:{{ .PostgresPassword }}@{{ .PostgresHost }}:5432/{{ .PostgresDB }}?sslmode=disable
 
 room_server:
   database:
-    connection_string: postgres://dendrite:{{ .PostgresPassword }}@postgres:5432/dendrite?sslmode=disable
+    connection_string: postgres://{{ .PostgresUser }}:{{ .PostgresPassword }}@{{ .PostgresHost }}:5432/{{ .PostgresDB }}?sslmode=disable
 
 sync_api:
   database:
-    connection_string: postgres://dendrite:{{ .PostgresPassword }}@postgres:5432/dendrite?sslmode=disable
+    connection_string: postgres://{{ .PostgresUser }}:{{ .PostgresPassword }}@{{ .PostgresHost }}:5432/{{ .PostgresDB }}?sslmode=disable
 
 user_api:
   database:
-    connection_string: postgres://dendrite:{{ .PostgresPassword }}@postgres:5432/dendrite?sslmode=disable
+    connection_string: postgres://{{ .PostgresUser }}:{{ .PostgresPassword }}@{{ .PostgresHost }}:5432/{{ .PostgresDB }}?sslmode=disable

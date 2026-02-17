@@ -24,7 +24,10 @@ const wellKnownServerJSON = `{"m.server":"{{ .ServerName }}:443"}`
 
 type templateData struct {
 	ServerName       string
+	PostgresUser     string
 	PostgresPassword string
+	PostgresDB       string
+	PostgresHost     string
 	SharedSecret     string
 }
 
@@ -33,11 +36,8 @@ func Run() error {
 	// Load .env file if present (does not override existing env vars)
 	_ = godotenv.Load()
 
-	data := templateData{
-		ServerName:       serverName,
-		PostgresPassword: envOrDefault("POSTGRES_PASSWORD", "changeme"),
-		SharedSecret:     generateSecret(32),
-	}
+	data := newTemplateData()
+	data.SharedSecret = generateSecret(32)
 
 	files := []struct {
 		path string
@@ -64,11 +64,8 @@ func Run() error {
 
 // GenerateContainerConfig generates dendrite.yaml at /etc/dendrite/ for container entrypoint use.
 func GenerateContainerConfig() error {
-	data := templateData{
-		ServerName:       serverName,
-		PostgresPassword: envOrDefault("POSTGRES_PASSWORD", "changeme"),
-		SharedSecret:     envOrDefault("REGISTRATION_SHARED_SECRET", generateSecret(32)),
-	}
+	data := newTemplateData()
+	data.SharedSecret = envOrDefault("REGISTRATION_SHARED_SECRET", generateSecret(32))
 
 	files := []struct {
 		path string
@@ -83,6 +80,16 @@ func GenerateContainerConfig() error {
 
 	fmt.Printf("registration shared secret: %s\n", data.SharedSecret)
 	return nil
+}
+
+func newTemplateData() templateData {
+	return templateData{
+		ServerName:       serverName,
+		PostgresUser:     envOrDefault("POSTGRES_USER", "dendrite"),
+		PostgresPassword: envOrDefault("POSTGRES_PASSWORD", "changeme"),
+		PostgresDB:       envOrDefault("POSTGRES_DB", "dendrite"),
+		PostgresHost:     envOrDefault("POSTGRES_HOST", "postgres"),
+	}
 }
 
 func generateFiles(files []struct {
