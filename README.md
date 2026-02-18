@@ -25,7 +25,7 @@ cp .env.example .env
 docker compose up -d
 
 # 4. Create your first account
-docker compose exec dendrite vox-loop admin create-account --username yourname --admin
+docker compose exec vox-loop vox-loop admin create-account --username yourname --admin
 ```
 
 ## Connecting
