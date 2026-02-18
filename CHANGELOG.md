@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/Einlanzerous/vox-loop/compare/v1.0.3...v1.0.4) (2026-02-18)
+
+
+### Bug Fixes
+
+* have caddy intercept and return dendrite response with msc3575 ([ec4ec51](https://github.com/Einlanzerous/vox-loop/commit/ec4ec5127c0c7e0fc8de98455365beca4187a206))
+
 ## [1.0.3](https://github.com/Einlanzerous/vox-loop/compare/v1.0.2...v1.0.3) (2026-02-17)
 
 
