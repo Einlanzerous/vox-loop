@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/Einlanzerous/vox-loop/compare/v1.0.4...v1.0.5) (2026-02-18)
+
+
+### Bug Fixes
+
+* port update for sliding-sync proxying, path handler for android ([6915ee7](https://github.com/Einlanzerous/vox-loop/commit/6915ee72204af0222fb4736f693fc24d2d95dfb6))
+
 ## [1.0.4](https://github.com/Einlanzerous/vox-loop/compare/v1.0.3...v1.0.4) (2026-02-18)
 
 
