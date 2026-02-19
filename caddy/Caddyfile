@@ -19,6 +19,7 @@
 	}
 
 	handle /_matrix/client/unstable/org.matrix.simplified_msc3575/* {
+		uri replace /org.matrix.simplified_msc3575/ /org.matrix.msc3575/
 		reverse_proxy sliding-sync:8008
 	}
 
